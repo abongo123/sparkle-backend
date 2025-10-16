@@ -52,14 +52,10 @@ app.post("/send", async (req, res) => {
   }
 });
 
-const PORT = process.env.PORT || 5000;
-app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
-
-
 // Booking Route//
 
 app.post("/book", async (req, res) => {
-  const { name, phone, email, service, date, message } = req.body;
+  const { name, phone, email, service, date, size, message } = req.body;
 
   if (!name || !email || !service || !date) {
     return res.status(400).send("Missing booking details.");
@@ -100,4 +96,7 @@ app.post("/book", async (req, res) => {
     res.status(500).send("Failed to send booking.");
   }
 });
+
+const PORT = process.env.PORT || 5000;
+app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
 

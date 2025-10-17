@@ -55,7 +55,7 @@ app.post("/send", async (req, res) => {
 // Booking Route//
 
 app.post("/book", async (req, res) => {
-  const { name, phone, email, service, date, size, message } = req.body;
+  const { name, phone, email, service, date, size, selectedOptions, message } = req.body;
 
   if (!name || !email || !service || !date) {
     return res.status(400).send("Missing booking details.");
@@ -83,7 +83,9 @@ app.post("/book", async (req, res) => {
       Email: ${email}
       Service: ${service}
       Preferred Date: ${date}
-      Size/Option: ${size}
+      Selected Options: ${
+        selectedOptions && selectedOptions.length > 0
+        ? selectedOptions.join(", "): "None"}
       Message: ${message || "N/A"}
     `,
   };

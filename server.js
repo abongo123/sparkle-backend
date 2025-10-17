@@ -1,3 +1,8 @@
+import express from "express";
+import cors from "cors";
+import mpesaRoutes from "./routes/mpesa.js";
+
+
 require("dotenv").config();
 const express = require("express");
 const nodemailer = require("nodemailer");
@@ -100,5 +105,12 @@ app.post("/book", async (req, res) => {
   }
 });
 
+
+//M Pesa//
+app.use("/api/mpesa", mpesaRoutes);
+
+app.listen(5000, () => console.log("Server running on port 5000"));
+
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
+

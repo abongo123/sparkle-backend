@@ -55,23 +55,22 @@ app.post("/send", async (req, res) => {
 // Booking Route//
 
 app.post("/book", async (req, res) => {
-  const { name, phone, email, service, date, size, selectedOptions, message } = req.body;
+  const { name, phone, email, service, selectedOptions, date, message } = req.body;
 
   if (!name || !email || !service || !date) {
     return res.status(400).send("Missing booking details.");
   }
 
- const transporter = nodemailer.createTransport({
-  service: "gmail",
-  auth: {
-    user: process.env.EMAIL,
-    pass: process.env.EMAIL_PASS,
-  },
-  tls: {
-    rejectUnauthorized: false,
-  },
-});
-
+  const transporter = nodemailer.createTransport({
+    service: "gmail",
+    auth: {
+      user: process.env.EMAIL,
+      pass: process.env.EMAIL_PASS,
+    },
+    tls: {
+      rejectUnauthorized: false,
+    },
+  });
 
   const mailOptions = {
     from: email,
@@ -79,13 +78,15 @@ app.post("/book", async (req, res) => {
     subject: `New Service Booking: ${service}`,
     text: `
       Name: ${name}
-      Phone ${phone}
+      Phone: ${phone}
       Email: ${email}
       Service: ${service}
-      Preferred Date: ${date}
       Selected Options: ${
         selectedOptions && selectedOptions.length > 0
-        ? selectedOptions.join(", "): "None"}
+          ? selectedOptions.join(", ")
+          : "None"
+      }
+      Preferred Date: ${date}
       Message: ${message || "N/A"}
     `,
   };
@@ -101,4 +102,3 @@ app.post("/book", async (req, res) => {
 
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
-

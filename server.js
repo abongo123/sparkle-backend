@@ -1,18 +1,23 @@
 import express from "express";
 import cors from "cors";
+import bodyParser from "body-parser";
+import nodemailer from "nodemailer";
+import dotenv from "dotenv";
 import mpesaRoutes from "./routes/mpesa.js";
 
-
-require("dotenv").config();
-const express = require("express");
-const nodemailer = require("nodemailer");
-const cors = require("cors");
-const bodyParser = require("body-parser");
+dotenv.config();
 
 const app = express();
 app.use(cors());
 app.use(bodyParser.json());
 
+app.use(cors({
+  origin: ["https://sparkle-dash.vercel.app"], // your frontend domain
+  methods: ["GET", "POST"],
+  allowedHeaders: ["Content-Type"]
+}));
+
+// 💌 CONTACT ROUTE
 app.post("/send", async (req, res) => {
   const { firstName, lastName, email, phone, message } = req.body;
   const name = `${firstName} ${lastName}`;
@@ -22,17 +27,15 @@ app.post("/send", async (req, res) => {
   }
 
   const transporter = nodemailer.createTransport({
-  host: "smtp.gmail.com",
-  port: 465,
-  secure: true, // true for port 465, false for port 587
-  auth: {
-    user: process.env.EMAIL,
-    pass: process.env.EMAIL_PASS,
-  },
-  tls: {
-    rejectUnauthorized: false, // 👈 This line tells Node to ignore self-signed cert errors
-  },
-});
+    host: "smtp.gmail.com",
+    port: 465,
+    secure: true,
+    auth: {
+      user: process.env.EMAIL,
+      pass: process.env.EMAIL_PASS,
+    },
+    tls: { rejectUnauthorized: false },
+  });
 
   const mailOptions = {
     from: email,
@@ -57,8 +60,7 @@ app.post("/send", async (req, res) => {
   }
 });
 
-// Booking Route//
-
+// 📅 BOOKING ROUTE
 app.post("/book", async (req, res) => {
   const { name, phone, email, service, selectedOptions, date, message } = req.body;
 
@@ -72,9 +74,7 @@ app.post("/book", async (req, res) => {
       user: process.env.EMAIL,
       pass: process.env.EMAIL_PASS,
     },
-    tls: {
-      rejectUnauthorized: false,
-    },
+    tls: { rejectUnauthorized: false },
   });
 
   const mailOptions = {
@@ -105,12 +105,9 @@ app.post("/book", async (req, res) => {
   }
 });
 
-
-//M Pesa//
+// 💵 M-PESA ROUTES
 app.use("/api/mpesa", mpesaRoutes);
 
-app.listen(5000, () => console.log("Server running on port 5000"));
-
+// ✅ SERVER LISTEN (only once)
 const PORT = process.env.PORT || 5000;
-app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
-
+app.listen(PORT, () => console.log(`✅ Server running on port ${PORT}`));

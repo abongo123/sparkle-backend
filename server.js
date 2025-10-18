@@ -108,6 +108,4 @@ app.post("/book", async (req, res) => {
 // 💵 M-PESA ROUTES
 app.use("/api/mpesa", mpesaRoutes);
 
-// ✅ SERVER LISTEN (only once)
-const PORT = process.env.PORT || 5000;
-app.listen(PORT, () => console.log(`✅ Server running on port ${PORT}`));
+export default app;

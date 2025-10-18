@@ -12,9 +12,9 @@ app.use(cors());
 app.use(bodyParser.json());
 
 app.use(cors({
-  origin: ["https://sparkle-dash.vercel.app"], // your frontend domain
+  origin: ["https://sparkle-dash.vercel.app"],
   methods: ["GET", "POST"],
-  allowedHeaders: ["Content-Type"]
+  credentials: true,
 }));
 
 // 💌 CONTACT ROUTE
@@ -108,4 +108,6 @@ app.post("/book", async (req, res) => {
 // 💵 M-PESA ROUTES
 app.use("/api/mpesa", mpesaRoutes);
 
-export default app;
+// ✅ SERVER LISTEN (only once)
+const PORT = process.env.PORT || 5000;
+app.listen(PORT, () => console.log(`✅ Server running on port ${PORT}`));

@@ -3,7 +3,7 @@ import cors from "cors";
 import bodyParser from "body-parser";
 import nodemailer from "nodemailer";
 import dotenv from "dotenv";
-import mpesaRoutes from "./routes/mpesa.js";
+import mpesaRoutes from "./mpesa.js";
 
 dotenv.config();
 

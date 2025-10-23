@@ -34,8 +34,8 @@ app.post("/send", async (req, res) => {
       port: 465,
       secure: true,
       auth: {
-        user: process.env.EMAIL,
-        pass: process.env.EMAIL_PASS,
+        user: process.env.CONTACT_EMAIL,
+        pass: process.env.CONTACT_EMAIL_PASS,
       },
       tls: { rejectUnauthorized: false },
     });
@@ -73,8 +73,8 @@ app.post("/book", async (req, res) => {
     const transporter = nodemailer.createTransport({
       service: "gmail",
       auth: {
-        user: process.env.EMAIL,
-        pass: process.env.EMAIL_PASS,
+        user: process.env.BOOKING_EMAIL,
+        pass: process.env.BOOKING_EMAIL_PASS,
       },
       tls: { rejectUnauthorized: false },
     });

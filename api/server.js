@@ -42,7 +42,7 @@ app.post("/send", async (req, res) => {
 
     await transporter.sendMail({
       from: email,
-      to: process.env.EMAIL,
+      to: process.env.CONTACT_EMAIL,
       subject: `New message from ${name}`,
       text: `
         Name: ${name}
@@ -81,7 +81,7 @@ app.post("/book", async (req, res) => {
 
     await transporter.sendMail({
       from: email,
-      to: process.env.EMAIL,
+      to: process.env.BOOKING_EMAIL,
       subject: `New Service Booking: ${service}`,
       text: `
         Name: ${name}

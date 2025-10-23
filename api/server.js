@@ -129,7 +129,7 @@ app.post("/send", async (req, res) => {
 
     await transporter.sendMail({
       from: email,
-      to: process.env.CONTACT_EMAIL,
+      to: process.env.QUOTATION_EMAIL,
       subject: `New message from ${name}`,
       text: `
         Name: ${name}

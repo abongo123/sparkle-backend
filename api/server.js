@@ -106,5 +106,45 @@ app.post("/book", async (req, res) => {
 // 💵 M-PESA ROUTES
 app.use("/api/mpesa", mpesaRoutes);
 
+//QUATATION//
+app.post("/send", async (req, res) => {
+  const { firstName, lastName, email, phone, message } = req.body;
+  const name = `${firstName} ${lastName}`;
+
+  if (!firstName || !lastName || !email || !message) {
+    return res.status(400).send("All fields are required.");
+  }
+
+  try {
+    const transporter = nodemailer.createTransport({
+      host: "smtp.gmail.com",
+      port: 465,
+      secure: true,
+      auth: {
+        user: process.env.QUOTATION_EMAIL,
+        pass: process.env.QUOTATION_EMAIL_PASS,
+      },
+      tls: { rejectUnauthorized: false },
+    });
+
+    await transporter.sendMail({
+      from: email,
+      to: process.env.CONTACT_EMAIL,
+      subject: `New message from ${name}`,
+      text: `
+        Name: ${name}
+        Email: ${email}
+        subject: ${subject}
+        Message: ${message}`,
+    });
+
+    res.status(200).send("Message sent successfully!");
+  } catch (error) {
+    console.error(error);
+    res.status(500).send("Failed to send message.");
+  }
+});
+
+
 // ✅ Export for Vercel (no app.listen)
 export default app;
